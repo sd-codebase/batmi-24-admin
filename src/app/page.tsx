@@ -1,95 +1,100 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+"use client";
+
+import { Row, Col, Card, Statistic, Table, Typography } from "antd";
+import {
+  UserOutlined,
+  DatabaseOutlined,
+  FileOutlined,
+} from "@ant-design/icons";
+import AdminLayout from "@/components/AdminLayout";
+
+const { Title } = Typography;
+
+// Mock data for demonstration
+const tableData = [
+  {
+    key: "1",
+    id: 1,
+    name: "Sample Entry 1",
+    category: "Category A",
+    date: "2025-04-28",
+  },
+  {
+    key: "2",
+    id: 2,
+    name: "Sample Entry 2",
+    category: "Category B",
+    date: "2025-04-29",
+  },
+  {
+    key: "3",
+    id: 3,
+    name: "Sample Entry 3",
+    category: "Category A",
+    date: "2025-04-30",
+  },
+];
+
+const tableColumns = [
+  {
+    title: "ID",
+    dataIndex: "id",
+    key: "id",
+  },
+  {
+    title: "Name",
+    dataIndex: "name",
+    key: "name",
+  },
+  {
+    title: "Category",
+    dataIndex: "category",
+    key: "category",
+  },
+  {
+    title: "Date",
+    dataIndex: "date",
+    key: "date",
+  },
+];
 
 export default function Home() {
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>src/app/page.tsx</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+    <AdminLayout>
+      <Title level={2}>Dashboard</Title>
+      <Row gutter={16} style={{ marginBottom: 24 }}>
+        <Col span={8}>
+          <Card>
+            <Statistic
+              title="Total Entries"
+              value={42}
+              prefix={<FileOutlined />}
             />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+          </Card>
+        </Col>
+        <Col span={8}>
+          <Card>
+            <Statistic title="Users" value={18} prefix={<UserOutlined />} />
+          </Card>
+        </Col>
+        <Col span={8}>
+          <Card>
+            <Statistic
+              title="Database Size"
+              value="1.2 GB"
+              prefix={<DatabaseOutlined />}
+            />
+          </Card>
+        </Col>
+      </Row>
+
+      <Card title="Recent Entries">
+        <Table
+          columns={tableColumns}
+          dataSource={tableData}
+          pagination={{ pageSize: 5 }}
+        />
+      </Card>
+    </AdminLayout>
   );
 }
