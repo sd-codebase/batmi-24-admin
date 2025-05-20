@@ -1,22 +1,21 @@
 "use client";
 
-import { useState } from "react";
+import AdminLayout from "@/components/AdminLayout";
+import { DatabaseSettings, GeneralSettings } from "@/types";
+import { SaveOutlined } from "@ant-design/icons";
 import {
+  Button,
   Card,
+  Divider,
   Form,
   Input,
-  Button,
+  message,
+  Select,
   Switch,
   Tabs,
   Typography,
-  Divider,
-  message,
-  Select,
 } from "antd";
-import { SaveOutlined } from "@ant-design/icons";
-import AdminLayout from "@/components/AdminLayout";
-import supabase from "@/lib/supabase";
-import { GeneralSettings, DatabaseSettings } from "@/types";
+import { useState } from "react";
 
 const { Title, Paragraph } = Typography;
 const { TabPane } = Tabs;

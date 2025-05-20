@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { List, Empty, Typography, Pagination, message } from "antd";
-import { NewsItem } from "@/types";
-import NewsCard from "./NewsCard";
 import supabase from "@/lib/supabase";
+import { NewsItem } from "@/types";
+import { Empty, List, Pagination, Typography, message } from "antd";
+import React, { useEffect, useState } from "react";
+import NewsCard from "./NewsCard";
 
 const { Title } = Typography;
 

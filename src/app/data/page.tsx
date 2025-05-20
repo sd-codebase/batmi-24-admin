@@ -1,22 +1,21 @@
 "use client";
 
-import { useState } from "react";
+import AdminLayout from "@/components/AdminLayout";
+import { DataItem } from "@/types";
+import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
 import {
-  Table,
-  Card,
   Button,
-  Space,
-  Typography,
+  Card,
+  Form,
   Input,
   Modal,
-  Form,
   Select,
+  Space,
+  Table,
+  Typography,
   message,
 } from "antd";
-import { PlusOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
-import AdminLayout from "@/components/AdminLayout";
-import supabase from "@/lib/supabase";
-import { DataItem } from "@/types";
+import { useState } from "react";
 
 const { Title } = Typography;
 const { Search } = Input;

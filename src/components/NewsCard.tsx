@@ -1,5 +1,6 @@
 "use client";
 
+import supabase from "@/lib/supabase";
 import { NewsItem } from "@/types";
 import {
   CheckOutlined,
@@ -10,8 +11,7 @@ import {
   SyncOutlined,
 } from "@ant-design/icons";
 import { Button, Card, Flex, Input, message, Tag, Typography } from "antd";
-import React, { useState, useEffect } from "react";
-import supabase from "@/lib/supabase";
+import React, { useEffect, useState } from "react";
 
 const { Text, Paragraph, Title } = Typography;
 const { TextArea } = Input;
