@@ -33,6 +33,9 @@ const NewsCard: React.FC<NewsCardProps> = ({
   const [isEditing, setIsEditing] = useState(false);
   const [editedContent, setEditedContent] = useState("");
   const [isJsonValid, setIsJsonValid] = useState(true);
+  const [publishedByGenerating, setPublishedByGenerating] = useState(false);
+  const [publishedSlug, setPublishedSlug] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     // Initialize editedContent with item.content when entering edit mode
@@ -161,6 +164,56 @@ const NewsCard: React.FC<NewsCardProps> = ({
     }
   };
 
+  const handleGenerateNews = async () => {
+    setIsLoading(true);
+    try {
+      const response = await fetch(
+        process.env.NEXT_PUBLIC_GENERATE_NEWS_URL || "",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            content: item.content,
+            title: item.title,
+          }),
+        }
+      );
+
+      if (response.status === 200) {
+        message.success(`News generated successfully {titile: ${item.title}}`);
+        setPublishedByGenerating(true);
+        // readt response data[0].generated
+        const data = await response.json();
+        const generatedContent = data[0].generated;
+        setPublishedSlug(generatedContent.slug);
+      } else {
+        message.error("Failed to generate news. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error generating news:", error);
+      message.error("An error occurred while generating news.");
+    }
+    setIsLoading(false);
+  };
+
+  if (publishedByGenerating) {
+    return (
+      <Card style={{ marginBottom: 16 }}>
+        <Title level={4}>{item.title}</Title>
+        <Text type="success">Already published</Text>
+        <Button
+          type="link"
+          href={`${process.env.NEXT_PUBLIC_PUBLISHED_WEBSITE_URL}/articles/${publishedSlug}`}
+          target="_blank"
+        >
+          Visit Published News
+        </Button>
+      </Card>
+    );
+  }
+
   return (
     <Card
       style={{
@@ -192,7 +245,7 @@ const NewsCard: React.FC<NewsCardProps> = ({
                   icon={<SyncOutlined />}
                   loading={actionLoading}
                 >
-                  Bypass & Publish
+                  Bypass Publish
                 </Button>
               ),
               onEdit && !isEditing && (
@@ -222,6 +275,17 @@ const NewsCard: React.FC<NewsCardProps> = ({
                   rel="noopener noreferrer"
                 >
                   <LinkOutlined /> View Source
+                </Button>
+              ),
+              !isEditing && (
+                <Button
+                  type="link"
+                  disabled={isLoading}
+                  loading={isLoading}
+                  onClick={handleGenerateNews}
+                  icon={<SyncOutlined />}
+                >
+                  Generate News
                 </Button>
               ),
             ].filter(Boolean)

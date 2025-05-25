@@ -24,7 +24,7 @@ const NewsList: React.FC<NewsListProps> = ({
   title = "News Items",
   onEditItem,
   onRefresh,
-  pageSize = 15,
+  pageSize = 25,
   onUnpublishedCountChange,
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -33,7 +33,7 @@ const NewsList: React.FC<NewsListProps> = ({
 
   // Update local state when data prop changes, filtering out bypassed items
   useEffect(() => {
-    const filteredItems = data.filter((item) => item.is_published !== false);
+    const filteredItems = data.filter((item) => item.is_published === false);
     setDisplayItems(filteredItems);
 
     // Reset to first page if items were filtered out that would make the current page empty
@@ -73,7 +73,7 @@ const NewsList: React.FC<NewsListProps> = ({
 
       const { error, status } = await supabase
         .from("scraped_news")
-        .update({ is_published: true })
+        .update({ is_published: true, content: null })
         .eq("title", item.title);
 
       console.log(`Supabase response status: ${status}, error:`, error);

@@ -11,6 +11,7 @@ import {
 } from "@ant-design/icons";
 import { Layout, Menu, Button, theme } from "antd";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const { Header, Sider, Content } = Layout;
 
@@ -24,6 +25,31 @@ export default function AdminLayout({
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
+  const pathname = usePathname();
+
+  const menuItems = [
+    {
+      key: "/",
+      icon: <DashboardOutlined />,
+      label: <Link href="/">Dashboard</Link>,
+    },
+    {
+      key: "/data",
+      icon: <TableOutlined />,
+      label: <Link href="/data">Data Management</Link>,
+    },
+    {
+      key: "/news",
+      icon: <FileTextOutlined />,
+      label: <Link href="/news">News</Link>,
+    },
+    {
+      key: "/settings",
+      icon: <SettingOutlined />,
+      label: <Link href="/settings">Settings</Link>,
+    },
+  ];
+
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Sider trigger={null} collapsible collapsed={collapsed}>
@@ -34,29 +60,8 @@ export default function AdminLayout({
         <Menu
           theme="dark"
           mode="inline"
-          defaultSelectedKeys={["1"]}
-          items={[
-            {
-              key: "1",
-              icon: <DashboardOutlined />,
-              label: <Link href="/">Dashboard</Link>,
-            },
-            {
-              key: "2",
-              icon: <TableOutlined />,
-              label: <Link href="/data">Data Management</Link>,
-            },
-            {
-              key: "3",
-              icon: <FileTextOutlined />,
-              label: <Link href="/news">News</Link>,
-            },
-            {
-              key: "4",
-              icon: <SettingOutlined />,
-              label: <Link href="/settings">Settings</Link>,
-            },
-          ]}
+          selectedKeys={[pathname]}
+          items={menuItems}
         />
       </Sider>
       <Layout>
